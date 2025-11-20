@@ -27,6 +27,8 @@ public class ClientEndController {
     
     private ClientGameController gameController;
     private PokerInfo pokerInfo;
+    private boolean isFirstLook = true; // Default to true (Green theme)
+    private boolean themeApplied = false;
     
     @FXML
     public void initialize() {
@@ -40,6 +42,11 @@ public class ClientEndController {
     public void setPokerInfo(PokerInfo info) {
         this.pokerInfo = info;
         updateDisplay();
+    }
+    
+    public void setThemeState(boolean isFirstLook, boolean themeApplied) {
+        this.isFirstLook = isFirstLook;
+        this.themeApplied = themeApplied;
     }
     
     private void updateDisplay() {
@@ -72,6 +79,9 @@ public class ClientEndController {
             // Preserve poker info
             newGameController.clientPokerInfo = new PokerInfo();
             newGameController.clientPokerInfo.cash = pokerInfo.cash;
+            
+            // Restore theme state
+            newGameController.restoreThemeState(isFirstLook, themeApplied);
             
             Scene scene = new Scene(root, 1000, 700);
             Stage stage = (Stage) returnToGameButton.getScene().getWindow();

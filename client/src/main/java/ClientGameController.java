@@ -33,6 +33,7 @@ public class ClientGameController {
     private ObservableList<String> logMessages;
     private int roundCount = 0;
     private boolean isFirstLook = true;
+    private boolean themeApplied = false;
     
     @FXML
     public void initialize() {
@@ -271,6 +272,7 @@ public class ClientGameController {
     
     @FXML
     private void handleNewLook() {
+        themeApplied = true;
         if (isFirstLook) {
             gamePane.getStyleClass().remove("theme-green");
             gamePane.getStyleClass().add("theme-purple");
@@ -301,6 +303,25 @@ public class ClientGameController {
         winningsLabel.setStyle(style);
     }
     
+    public void restoreThemeState(boolean savedIsFirstLook, boolean savedThemeApplied) {
+        this.isFirstLook = savedIsFirstLook;
+        this.themeApplied = savedThemeApplied;
+        
+        if (!themeApplied) {
+            return;
+        }
+
+        if (!isFirstLook) {
+            gamePane.getStyleClass().remove("theme-green");
+            gamePane.getStyleClass().add("theme-purple");
+            setTextColor("white");
+        } else {
+            gamePane.getStyleClass().remove("theme-purple");
+            gamePane.getStyleClass().add("theme-green");
+            setTextColor("white");
+        }
+    }
+
     private void sendToEndScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientEnd.fxml"));
@@ -309,6 +330,7 @@ public class ClientGameController {
             ClientEndController endController = loader.getController();
             endController.setGameController(this);
             endController.setPokerInfo(clientPokerInfo);
+            endController.setThemeState(isFirstLook, themeApplied);
             
             Scene scene = new Scene(root, 1000, 700);
             Stage stage = (Stage) dealButton.getScene().getWindow();

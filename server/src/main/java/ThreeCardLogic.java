@@ -41,6 +41,38 @@ public class ThreeCardLogic {
         return max;
     }
     
+    // Get the name of a card value
+    public static String getCardName(int value) {
+        switch(value) {
+            case 14: return "Ace";
+            case 13: return "King";
+            case 12: return "Queen";
+            case 11: return "Jack";
+            case 10: return "10";
+            case 9: return "9";
+            case 8: return "8";
+            case 7: return "7";
+            case 6: return "6";
+            case 5: return "5";
+            case 4: return "4";
+            case 3: return "3";
+            case 2: return "2";
+            default: return "Unknown";
+        }
+    }
+    
+    // Get detailed hand description including high card information
+    public static String getHandDescription(ArrayList<Card> hand) {
+        Hands handType = evalHand(hand);
+        
+        if (handType == Hands.HIGH_CARD) {
+            int highCard = highestCardVal(hand);
+            return getCardName(highCard) + " High";
+        } else {
+            return handType.getName();
+        }
+    }
+    
     // Evaluates a three card poker hand and returns what type of hand it is
     public static Hands evalHand(ArrayList<Card> hand) {
         if (hand == null || hand.size() != 3) {

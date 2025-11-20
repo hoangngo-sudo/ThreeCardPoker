@@ -24,6 +24,7 @@ public class ClientStartController {
     
     private Client clientConnection;
     private boolean hasTransitioned = false;
+    private PokerInfo initialPokerInfo = null;
     
     @FXML
     public void initialize() {
@@ -70,7 +71,8 @@ public class ClientStartController {
                     }
                 } else if (data instanceof PokerInfo) {
                     // Received initial message from server, switch to game screen
-                    System.out.println("Client received PokerInfo, switching to game screen");
+                    initialPokerInfo = (PokerInfo) data;
+                    System.out.println("Client received PokerInfo with cash: $" + initialPokerInfo.cash);
                     if (!hasTransitioned) {
                         hasTransitioned = true;
                         try {
@@ -109,6 +111,13 @@ public class ClientStartController {
         
         ClientGameController gameController = loader.getController();
         gameController.setClient(clientConnection);
+        
+        // Set initial cash from server
+        if (initialPokerInfo != null) {
+            gameController.clientPokerInfo.cash = initialPokerInfo.cash;
+            gameController.updateCashDisplay(initialPokerInfo.cash);
+            System.out.println("Set initial cash to: $" + initialPokerInfo.cash);
+        }
         
         Scene scene = new Scene(root, 1000, 700);
         Stage stage = (Stage) startButton.getScene().getWindow();

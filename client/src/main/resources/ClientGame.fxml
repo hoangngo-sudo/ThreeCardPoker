@@ -75,8 +75,8 @@
                 </VBox>
                 
                 <VBox spacing="8" alignment="CENTER">
-                    <Text fx:id="winningsLabel" text="Total Winnings"/>
-                    <Text fx:id="cash" text="0"/>
+                    <Text fx:id="winningsLabel" text="Total Cash"/>
+                    <Text fx:id="cash" text="200"/>
                 </VBox>
             </HBox>
             

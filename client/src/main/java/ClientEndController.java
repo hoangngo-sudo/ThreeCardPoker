@@ -52,14 +52,17 @@ public class ClientEndController {
     private void updateDisplay() {
         Platform.runLater(() -> {
             if (pokerInfo.winningsThisRound > 0) {
+                // Positive net earnings - player won
                 endScreenWinLoseText.setText("YOU WON!");
                 endScreenWinLoseText.setStyle("-fx-fill: #4CAF50;");
                 endScreenWinLossMoney.setText("+$" + pokerInfo.winningsThisRound);
             } else if (pokerInfo.winningsThisRound < 0) {
+                // Negative net earnings - player lost
                 endScreenWinLoseText.setText("You Lost");
                 endScreenWinLoseText.setStyle("-fx-fill: #F44336;");
                 endScreenWinLossMoney.setText("-$" + Math.abs(pokerInfo.winningsThisRound));
             } else {
+                // Zero net earnings - push (tie or dealer didn't qualify)
                 endScreenWinLoseText.setText("Push");
                 endScreenWinLoseText.setStyle("-fx-fill: #FFC107;");
                 endScreenWinLossMoney.setText("$0");

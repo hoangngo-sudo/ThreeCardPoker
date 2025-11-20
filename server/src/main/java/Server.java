@@ -124,9 +124,10 @@ public class Server {
                 // Send initial welcome message to client
                 PokerInfo welcome = new PokerInfo();
                 welcome.buttonPressed = 0; // 0 means ready to play
+                welcome.cash = 200; // Starting cash for each player
                 out.writeObject(welcome);
                 out.reset();
-                Server.this.logMessage("Client " + count + " sent initial welcome message");
+                Server.this.logMessage("Client " + count + " sent initial welcome message with $200 starting cash");
             } catch (Exception e) {
                 Server.this.logMessage("Streams not open for client " + count);
                 return;
@@ -168,6 +169,11 @@ public class Server {
                 return;
             }
             
+            // Deduct ante and pair plus from player's cash
+            int totalBet = data.ante + data.pairPlus;
+            player.setTotalWinnings(data.cash - totalBet);
+            data.cash = player.getTotalWinnings();
+            
             // Set player bets
             player.setAnteBet(data.ante);
             player.setPairPlusBet(data.pairPlus);
@@ -189,18 +195,21 @@ public class Server {
             data.dCard3 = dealerHand.get(2).toString();
             
             // Evaluate hands
-            data.pHandVal = ThreeCardLogic.evalHand(playerHand).getName();
-            data.dHandVal = ThreeCardLogic.evalHand(dealerHand).getName();
+            data.pHandVal = ThreeCardLogic.getHandDescription(playerHand);
+            data.dHandVal = ThreeCardLogic.getHandDescription(dealerHand);
             
             Server.this.logMessage("Client " + count + " has dealt: Ante=$" + data.ante + 
                           ", PP=$" + data.pairPlus + ", Player: " + data.pHandVal);
         }
         
         private void handlePlay(PokerInfo data) {
+            // Deduct play wager from player's cash (equal to ante)
             player.setPlayBet(player.getAnteBet());
             data.play = player.getPlayBet();
+            player.setTotalWinnings(player.getTotalWinnings() - data.play);
             
             int winnings = 0;
+            int netEarnings = 0; // Track net profit/loss for display
             ArrayList<Card> playerHand = player.getHand();
             ArrayList<Card> dealerHand = dealer.getDealersHand();
             
@@ -208,11 +217,12 @@ public class Server {
             if (player.getPairPlusBet() > 0) {
                 int ppWinnings = ThreeCardLogic.evalPPWinnings(playerHand, player.getPairPlusBet());
                 if (ppWinnings > 0) {
-                    winnings += ppWinnings;
-                    Server.this.logMessage("Client " + count + " has won Pair Plus: $" + ppWinnings);
+                    winnings += ppWinnings + player.getPairPlusBet(); // Return bet + winnings
+                    netEarnings += ppWinnings; // Net profit from PP
+                    Server.this.logMessage("Client " + count + " won Pair Plus: $" + ppWinnings + " (total payout: $" + (ppWinnings + player.getPairPlusBet()) + ")");
                 } else {
-                    winnings -= player.getPairPlusBet();
-                    Server.this.logMessage("Client " + count + " has lost Pair Plus: -$" + player.getPairPlusBet());
+                    netEarnings -= player.getPairPlusBet(); // Lost PP bet
+                    Server.this.logMessage("Client " + count + " lost Pair Plus bet: $" + player.getPairPlusBet());
                 }
             }
             
@@ -220,9 +230,11 @@ public class Server {
             boolean dealerQualifies = ThreeCardLogic.dealerQualifies(dealerHand);
             
             if (!dealerQualifies) {
-                // Dealer doesn't qualify - both ante and play wagers are returned (pushed)
-                // No winnings, no losses from ante/play bets
-                Server.this.logMessage("Client " + count + " has dealer's cards does not qualify (ante pushed)");
+                // Dealer doesn't qualify
+                // Return both play wager and ante wager (pushed)
+                winnings += player.getAnteBet() + player.getPlayBet();
+                // netEarnings stays 0 for ante/play (push)
+                Server.this.logMessage("Client " + count + " dealer does not qualify. Ante ($" + player.getAnteBet() + ") and Play ($" + player.getPlayBet() + ") returned");
                 data.winner = 0; // Indicate dealer didn't qualify
             } else {
                 // Compare hands
@@ -230,36 +242,38 @@ public class Server {
                 data.winner = result;
                 
                 if (result == 1) { // Player wins
-                    int antePlayWin = (player.getAnteBet() + player.getPlayBet()) * 2;
-                    winnings += antePlayWin;
-                    Server.this.logMessage("Client " + count + " has player wins: $" + antePlayWin);
+                    // Return original bets + winnings (1 to 1)
+                    int totalPayout = (player.getAnteBet() + player.getPlayBet()) * 2;
+                    winnings += totalPayout;
+                    netEarnings += player.getAnteBet() + player.getPlayBet(); // Net profit
+                    Server.this.logMessage("Client " + count + " player wins! Payout: $" + totalPayout);
                 } else if (result == 2) { // Dealer wins
-                    int loss = player.getAnteBet() + player.getPlayBet();
-                    winnings -= loss;
-                    Server.this.logMessage("Client " + count + " has dealer wins: -$" + loss);
+                    // Ante and play already deducted, no refund
+                    netEarnings -= (player.getAnteBet() + player.getPlayBet()); // Lost both
+                    Server.this.logMessage("Client " + count + " dealer wins. Lost ante ($" + player.getAnteBet() + ") and play ($" + player.getPlayBet() + ")");
                 } else { // Tie
-                    Server.this.logMessage("Client " + count + " cards are pushed. Tie game");
+                    // Return both bets
+                    winnings += player.getAnteBet() + player.getPlayBet();
+                    // netEarnings stays 0 (push)
+                    Server.this.logMessage("Client " + count + " tie game. Ante and Play returned");
                 }
             }
             
             player.setTotalWinnings(player.getTotalWinnings() + winnings);
-            data.winningsThisRound = winnings;
+            data.winningsThisRound = netEarnings; // Use net earnings for display
             data.cash = player.getTotalWinnings();
             
-            Server.this.logMessage("Client " + count + " has total winnings: $" + data.cash);
+            Server.this.logMessage("Client " + count + " total cash: $" + data.cash);
         }
         
         private void handleFold(PokerInfo data) {
-            int loss = player.getAnteBet();
-            if (player.getPairPlusBet() > 0) {
-                loss += player.getPairPlusBet();
-            }
-            
-            player.setTotalWinnings(player.getTotalWinnings() - loss);
-            data.winningsThisRound = -loss;
+            // Ante and Pair Plus already deducted during deal
+            // No refunds when folding
             data.cash = player.getTotalWinnings();
+            data.winningsThisRound = 0; // No additional change
             
-            Server.this.logMessage("Client " + count + " has folded: -$" + loss + ", Total: $" + data.cash);
+            Server.this.logMessage("Client " + count + " folded. Lost ante ($" + player.getAnteBet() + 
+                                 ") and pair plus ($" + player.getPairPlusBet() + "). Total cash: $" + data.cash);
         }
     }
 }

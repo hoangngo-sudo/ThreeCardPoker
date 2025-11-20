@@ -137,6 +137,21 @@ public class ClientGameController {
                 return;
             }
             
+            // Check if player has enough cash
+            int totalBet = anteValue + ppValue;
+            if (clientPokerInfo.cash < totalBet) {
+                addLogMessage("Not enough cash! You have $" + clientPokerInfo.cash);
+                return;
+            }
+            
+            // Check if player is out of money
+            if (clientPokerInfo.cash <= 0) {
+                addLogMessage("Out of money! Please start a new game.");
+                confirmButton.setDisable(true);
+                dealButton.setDisable(true);
+                return;
+            }
+            
             clientPokerInfo.ante = anteValue;
             clientPokerInfo.pairPlus = ppValue;
             
@@ -167,7 +182,14 @@ public class ClientGameController {
     private void handleServerResponse(PokerInfo data) {
         clientPokerInfo = data;
         
-        if (data.buttonPressed == 1) { // Response to deal
+        if (data.buttonPressed == 0) { // Initial welcome message
+            cash.setText("$" + data.cash);
+            clientPokerInfo.cash = data.cash;
+            addLogMessage("Starting with $" + data.cash);
+        } else if (data.buttonPressed == 1) { // Response to deal
+            // Update cash display (ante + pair plus deducted)
+            cash.setText("$" + data.cash);
+            
             // Show player cards
             setCardImage(c1, data.card1);
             setCardImage(c2, data.card2);
@@ -184,6 +206,7 @@ public class ClientGameController {
             playButton.setDisable(false);
             foldButton.setDisable(false);
             
+            addLogMessage("Ante ($" + clientPokerInfo.ante + ") and Pair Plus ($" + clientPokerInfo.pairPlus + ") deducted");
             addLogMessage("Cards dealt! You have: " + data.pHandVal);
             addLogMessage("Play or Fold?");
             
@@ -194,7 +217,7 @@ public class ClientGameController {
             setCardImage(d3, data.dCard3);
             dHandVal.setText(data.dHandVal);
             
-            play.setText("$" + data.play);
+            // Update final cash from server
             cash.setText("$" + data.cash);
             
             if (data.buttonPressed == 3) { // Folded
@@ -239,11 +262,20 @@ public class ClientGameController {
     @FXML
     private void handlePlay() {
         clientPokerInfo.buttonPressed = 2; // Play
+        
+        // Show play wager immediately (equal to ante)
+        int playWager = clientPokerInfo.ante;
+        play.setText("$" + playWager);
+        
+        // Deduct play wager from cash immediately
+        clientPokerInfo.cash -= playWager;
+        cash.setText("$" + clientPokerInfo.cash);
+        
         clientConnection.send(clientPokerInfo);
         
         playButton.setDisable(true);
         foldButton.setDisable(true);
-        addLogMessage("You chose to play!");
+        addLogMessage("You chose to play! Play wager ($" + playWager + ") deducted");
     }
     
     @FXML
@@ -370,5 +402,10 @@ public class ClientGameController {
         setCardImage(d3, "back");
         
         addLogMessage("New round! Place your bets.");
+    }
+    
+    public void updateCashDisplay(int cashAmount) {
+        cash.setText("$" + cashAmount);
+        addLogMessage("Starting with $" + cashAmount);
     }
 }

@@ -31,7 +31,8 @@ public class ServerGameController {
     public void initialize() {
         logMessages = FXCollections.observableArrayList();
         listItems.setItems(logMessages);
-        serverOffButton.setDisable(true);
+        serverOffButton.setDisable(false);
+        serverOnButton.setDisable(true);
         
         // Add focus listener to clear ListView selection when clicking outside
         gameRoot.setOnMousePressed(event -> {

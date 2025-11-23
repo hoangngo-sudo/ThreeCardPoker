@@ -82,7 +82,12 @@ public class ClientEndController {
             Parent root = loader.load();
             
             ClientGameController newGameController = loader.getController();
+
+            // Pass the same client object to the new game controller
             newGameController.setClient(gameController.clientConnection);
+
+            // tell client to use this controller for future callbacks
+            gameController.clientConnection.setGameController(newGameController);
             
             // Preserve poker info
             newGameController.clientPokerInfo = new PokerInfo();

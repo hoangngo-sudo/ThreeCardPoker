@@ -1,0 +1,59 @@
+.start-root {
+    -fx-background-color: #f0f0f0;
+    -fx-alignment: center;
+    -fx-spacing: 35;
+    -fx-padding: 80 50 80 50;
+}
+
+.start-root TextField {
+    -fx-pref-width: 280px;
+}
+
+.start-root Button {
+    -fx-pref-width: 320px;
+}
+
+.start-root VBox {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+    -fx-padding: 30 50 30 50;
+}
+
+.start-root HBox {
+    -fx-spacing: 15;
+    -fx-alignment: center;
+}
+
+.game-root {
+    -fx-background-color: #f0f0f0;
+    -fx-spacing: 15;
+    -fx-padding: 30 30 30 30;
+}
+
+.game-root .title-box {
+    -fx-alignment: center;
+}
+
+.game-root .info-box {
+    -fx-spacing: 30;
+    -fx-alignment: center-left;
+}
+
+.game-root .button-container {
+    -fx-spacing: 30;
+    -fx-alignment: center-right;
+}
+
+.game-root .left-aligned-text {
+    -fx-alignment: center-left;
+}
+
+.game-root .control-button {
+    -fx-pref-width: 180px;
+}
+
+.game-root .list-view {
+    -fx-pref-height: 450;
+}
+
+

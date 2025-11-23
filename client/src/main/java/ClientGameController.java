@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -484,5 +485,30 @@ public class ClientGameController {
 
         SequentialTransition seq = new SequentialTransition(delay, shrink, expand);
         seq.play();
+    }
+
+    // method that returns client thread to start screen when server is disconnected
+    public void returnToStartAfterDisconnect() {
+        try {
+            // Send pop up alert to client
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Disconnected");
+            alert.setHeaderText("Server connection lost");
+            alert.setContentText("Returning to the start screen");
+            alert.showAndWait();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientStart.fxml"));
+            Parent root = loader.load();
+
+            ClientStartController startController = loader.getController();
+            startController.setClient(clientConnection);
+
+            // Switch scenes
+            Stage stage = (Stage) cash.getScene().getWindow();
+            Scene scene = new Scene(root);
+            Platform.runLater(() -> stage.setScene(scene));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

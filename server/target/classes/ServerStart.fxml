@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+        fx:controller="ServerStartController" stylesheets="@server.css" styleClass="start-root" 
+        prefWidth="1000" prefHeight="700">
+    
+    <Text text="THREE CARD POKER SERVER"/> 
+    <VBox>
+        <Text text="Configure and Start Server"/>
+        <HBox>
+            <Text text="Port:"/>
+            <TextField fx:id="portField" promptText="5555"/>
+        </HBox>
+        <Button fx:id="startButton" text="Start Server" onAction="#handleStartServer"/>
+    </VBox>
+    
+</VBox>

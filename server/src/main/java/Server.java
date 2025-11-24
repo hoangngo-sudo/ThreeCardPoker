@@ -275,7 +275,7 @@ public class Server {
             data.cash = player.getTotalWinnings();
             data.winningsThisRound = 0; // No additional change
             
-            Server.this.logMessage("Client " + count + " folded. Client " + count + "lost ante ($" + player.getAnteBet() + 
+            Server.this.logMessage("Client " + count + " folded. Client " + count + " lost ante ($" + player.getAnteBet() + 
                                  ") and pair plus ($" + player.getPairPlusBet() + "). Total cash: $" + data.cash);
         }
         

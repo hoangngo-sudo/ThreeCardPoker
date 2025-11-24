@@ -251,7 +251,7 @@ public class ClientGameController {
             cash.setText("$" + data.cash);
             
             if (data.buttonPressed == 3) { // Folded
-                addLogMessage("You folded. Lost: $" + (data.ante + data.pairPlus));
+                addLogMessage("You folded. You lost $" + (data.ante + data.pairPlus));
             } else { // Played
                 addLogMessage("Dealer has " + data.dHandVal);
                 

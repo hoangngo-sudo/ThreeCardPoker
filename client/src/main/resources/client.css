@@ -48,14 +48,13 @@
     -fx-alignment: center;
 }
 
-.theme-maroon {
-    -fx-background-color: linear-gradient(to bottom, #5a0f0f, #3b0808);
-}
-
 .theme-green {
     -fx-background-color: linear-gradient(to bottom, #0d5c2f, #0a4523);
 }
 
+.theme-purple {
+    -fx-background-color: linear-gradient(to bottom, #2c0d54, #1a0833);
+}
 
 .end-root .return-button,
 .end-root .exit-button {
@@ -64,113 +63,6 @@
 
 .result-title {
     -fx-font-size: 24px;
-}
-
-.end-root-maroon {
-    -fx-background-color: linear-gradient(to bottom, #5a0f0f, #3b0808);
-    -fx-padding: 40;
-    -fx-border-color: gold;
-    -fx-border-width: 5px;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
-}
-
-/* ==========================
-   MAIN TITLE
-   ========================== */
-.end-title {
-    -fx-font-size: 40px;
-    -fx-font-weight: bold;
-    -fx-text-fill: gold;
-    -fx-font-family: "Georgia", "Times New Roman", serif;
-    -fx-effect: dropshadow(gaussian, black, 12, 0.5, 0, 4);
-}
-
-.game-title {
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffd966;
-    -fx-font-family: "Georgia", serif;
-}
-
-/* ==========================
-   WIN/LOSS RESULT TEXT
-   (big green for win, big red for loss)
-   ========================== */
-.end-result {
-    -fx-font-size: 34px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffd966; /* goldish until set in code */
-    -fx-font-family: "Georgia", serif;
-    -fx-effect: dropshadow(gaussian, black, 10, 0.4, 0, 3);
-}
-
-.end-subtitle {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffe699;
-    -fx-font-family: "Georgia", serif;
-    -fx-effect: dropshadow(gaussian, black, 12, 0.5, 0, 4);
-}
-
-.end-money {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #fff2cc;
-    -fx-font-family: "Georgia", serif;
-    -fx-effect: dropshadow(gaussian, black, 12, 0.5, 0, 4);
-}
-
-/* ==========================
-   BUTTON STYLING
-   ========================== */
-.end-button {
-    -fx-background-color: linear-gradient(to bottom, #d4af37, #b48b2c);
-    -fx-text-fill: #3b0808;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-padding: 12 30;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-    -fx-border-color: #f7d46a;
-    -fx-border-width: 2px;
-    -fx-font-family: "Georgia";
-    -fx-cursor: hand;
-}
-
-.game-button {
-    -fx-background-color: linear-gradient(to bottom, #d4af37, #b48b2c);
-    -fx-text-fill: #3b0808;
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-padding: 12 30;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-    -fx-border-color: #f7d46a;
-    -fx-border-width: 2px;
-    -fx-font-family: "Georgia";
-    -fx-cursor: hand;
-}
-
-.end-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #ffe38f, #d4af37);
-    -fx-effect: dropshadow(gaussian, gold, 12, 0.3, 0, 0);
-}
-
-.game-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #ffe38f, #d4af37);
-    -fx-effect: dropshadow(gaussian, gold, 12, 0.3, 0, 0);
-}
-
-.exit-button {
-    -fx-background-color: linear-gradient(to bottom, #b30000, #7a0000);
-    -fx-text-fill: white;
-    -fx-border-color: #ffaaaa;
-}
-
-.exit-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #ff3333, #b30000);
-    -fx-effect: dropshadow(gaussian, red, 12, 0.3, 0, 0);
 }
 
 

@@ -16,7 +16,6 @@
             <Menu text="Options">
                 <MenuItem text="Fresh Start" onAction="#handleFreshStart"/>
                 <MenuItem text="New Look" onAction="#handleNewLook"/>
-                <MenuItem text="Payouts" onAction="#showOddsWindow"/>
                 <MenuItem text="Exit" onAction="#handleExit"/>
             </Menu>
         </MenuBar>
@@ -31,7 +30,7 @@
             
             <!-- Dealer's Cards Area -->
             <VBox spacing="8" alignment="CENTER">
-                <Text fx:id="dealerCardLabel" styleClass="game-title" text="Dealer's Hand"/>
+                <Text fx:id="dealerCardLabel" text="Dealer's Hand"/>
                 <Text fx:id="dHandVal" text=""/>
                 <HBox spacing="12" alignment="CENTER">
                     <ImageView fx:id="d1" fitWidth="110" fitHeight="154" preserveRatio="true"/>
@@ -42,7 +41,7 @@
             
             <!-- Player's Cards Area -->
             <VBox spacing="8" alignment="CENTER">
-                <Text fx:id="yourHandLabel" styleClass="game-title" text="Your Hand"/>
+                <Text fx:id="yourHandLabel" text="Your Hand"/>
                 <Text fx:id="pHandVal" text=""/>
                 <HBox spacing="12" alignment="CENTER">
                     <ImageView fx:id="c1" fitWidth="110" fitHeight="154" preserveRatio="true"/>
@@ -57,36 +56,36 @@
                     <Insets top="95" right="0" bottom="0" left="0"/>
                 </padding>
                 <VBox spacing="8" alignment="CENTER">
-                    <Text fx:id="anteLabel" fill="WHITE" styleClass="game-title" text="Ante Wager"/>
-                    <TextField fx:id="anteWagerField" promptText="5-25"
+                    <Text fx:id="anteLabel" text="Ante Wager"/>
+                    <TextField fx:id="anteWagerField" promptText="5-25" 
                                prefWidth="100" alignment="CENTER"/>
-                    <Text fx:id="ante" fill="WHITE" styleClass="game-title" text="0"/>
+                    <Text fx:id="ante" text="0"/>
                 </VBox>
                 
                 <VBox spacing="8" alignment="CENTER">
-                    <Text fx:id="ppLabel" fill="WHITE" styleClass="game-title" text="Pair Plus"/>
+                    <Text fx:id="ppLabel" text="Pair Plus"/>
                     <TextField fx:id="ppWagerField" promptText="5-25" 
                                prefWidth="100" alignment="CENTER"/>
-                    <Text fx:id="pp" fill="WHITE" styleClass="game-title" text="0"/>
+                    <Text fx:id="pp" text="0"/>
                 </VBox>
                 
                 <VBox spacing="8" alignment="CENTER">
-                    <Text fx:id="playLabel" fill="WHITE" styleClass="game-title" text="Play Wager"/>
-                    <Text fx:id="play" fill="WHITE" styleClass="game-title" text="0"/>
+                    <Text fx:id="playLabel" text="Play Wager"/>
+                    <Text fx:id="play" text="0"/>
                 </VBox>
                 
                 <VBox spacing="8" alignment="CENTER">
-                    <Text fx:id="winningsLabel" fill="WHITE" styleClass="game-title" text="Total Cash"/>
-                    <Text fx:id="cash" fill="WHITE" styleClass="game-title" text="200"/>
+                    <Text fx:id="winningsLabel" text="Total Cash"/>
+                    <Text fx:id="cash" text="200"/>
                 </VBox>
             </HBox>
             
             <!-- Action Buttons -->
             <HBox spacing="15" alignment="CENTER">
-                <Button fx:id="confirmButton" text="Confirm Bets" onAction="#handleConfirm" styleClass="game-button" prefWidth="140"/>
-                <Button fx:id="dealButton" text="Deal" onAction="#handleDeal" styleClass="game-button" prefWidth="140" disable="true"/>
-                <Button fx:id="playButton" text="Play" onAction="#handlePlay" styleClass="game-button" prefWidth="140" disable="true"/>
-                <Button fx:id="foldButton" text="Fold" onAction="#handleFold" styleClass="game-button" prefWidth="140" disable="true"/>
+                <Button fx:id="confirmButton" text="Confirm Bets" onAction="#handleConfirm" prefWidth="140"/>
+                <Button fx:id="dealButton" text="Deal" onAction="#handleDeal" prefWidth="140" disable="true"/>
+                <Button fx:id="playButton" text="Play" onAction="#handlePlay" prefWidth="140" disable="true"/>
+                <Button fx:id="foldButton" text="Fold" onAction="#handleFold" prefWidth="140" disable="true"/>
             </HBox>
         </VBox>
     </center>

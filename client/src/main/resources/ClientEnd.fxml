@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox fx:id="endScreenClientBox" alignment="CENTER" prefHeight="700" prefWidth="1000" spacing="25" styleClass="end-root-maroon" stylesheets="@client.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientEndController">
-
-    <Text fill="WHITE" styleClass="end-title" text="Round Complete!" />
-
-    <Text fx:id="endScreenWinLoseText" styleClass="end-result" text="" />
-
-    <VBox alignment="CENTER" spacing="8">
-        <Text fill="WHITE" styleClass="end-subtitle" text="Round Earnings:" />
-        <Text fx:id="endScreenWinLossMoney" fill="WHITE" styleClass="end-money" text="0" />
+<VBox fx:id="endScreenClientBox" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="ClientEndController" stylesheets="@client.css" styleClass="end-root"
+      prefWidth="1000" prefHeight="700">
+    <Text text="Round Complete!"/>
+    <Text fx:id="endScreenWinLoseText" text="" styleClass="result-title"/>
+    <VBox>
+        <Text text="Round Earnings:"/>
+        <Text fx:id="endScreenWinLossMoney" text="0"/>
     </VBox>
-
-    <VBox alignment="CENTER" spacing="15">
-        <Button fx:id="returnToGameButton" onAction="#handleReturn" styleClass="end-button" text="Play Another Hand" />
-
-        <Button fx:id="endGameButton" onAction="#handleExit" styleClass="exit-button" text="Exit Game" />
+    <VBox>
+        <Button fx:id="returnToGameButton" text="Play Another Hand" onAction="#handleReturn"/>
+        <Button fx:id="endGameButton" text="Exit Game" onAction="#handleExit"/>
     </VBox>
-
 </VBox>
+

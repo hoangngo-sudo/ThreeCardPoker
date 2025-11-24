@@ -493,8 +493,10 @@ public class ClientGameController {
             // Send pop up alert to client
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Disconnected");
-            alert.setHeaderText("Server connection lost");
-            alert.setContentText("Returning to the start screen");
+            alert.setHeaderText(null);
+            alert.setContentText("Server connection lost\nReturning to the start screen");
+            alert.getDialogPane().setPrefSize(300, 150);
+            alert.setResizable(false);
             alert.showAndWait();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientStart.fxml"));

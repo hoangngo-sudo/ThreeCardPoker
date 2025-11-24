@@ -48,6 +48,7 @@ public class Server {
                     }
                 }
                 clients.clear();
+                count = 1;      // reset client count when server is disabled
                 if (server != null && server.mysocket != null) {
                     server.mysocket.close();
                 }

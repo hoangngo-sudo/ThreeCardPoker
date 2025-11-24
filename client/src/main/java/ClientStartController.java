@@ -25,7 +25,11 @@ public class ClientStartController {
     private Client clientConnection;
     private boolean hasTransitioned = false;
     private PokerInfo initialPokerInfo = null;
-    
+
+    private Client clientRef;
+    public void setClient(Client c) { this.clientRef = c; }
+
+
     @FXML
     public void initialize() {
         // Set up focus listeners to clear focus when clicking outside text fields
@@ -85,7 +89,7 @@ public class ClientStartController {
                 }
             });
         }, ip, port);
-        
+
         clientConnection.start();
         
         // Wait a moment for connection
@@ -108,9 +112,11 @@ public class ClientStartController {
         System.out.println("switchToGameScreen called");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientGame.fxml"));
         Parent root = loader.load();
-        
+
         ClientGameController gameController = loader.getController();
         gameController.setClient(clientConnection);
+
+        clientConnection.setGameController(gameController);
         
         // Set initial cash from server
         if (initialPokerInfo != null) {

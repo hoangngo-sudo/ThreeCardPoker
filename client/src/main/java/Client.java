@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.function.Consumer;
 
+import javafx.application.Platform;
+
 public class Client extends Thread {
     Socket socketClient;
     String IP;
@@ -12,7 +14,14 @@ public class Client extends Thread {
     ObjectInputStream in;
     ObjectOutputStream out;
     Consumer<Serializable> callback;
-    
+
+    private ClientGameController gameControllerRef;     // reference to GameController
+
+    // method to set the Game Controller reference
+    public void setGameController(ClientGameController gameControllerRef) {
+        this.gameControllerRef = gameControllerRef;
+    }
+
     Client(Consumer<Serializable> call) {
         callback = call;
         this.IP = "127.0.0.1";
@@ -50,6 +59,7 @@ public class Client extends Thread {
                 callback.accept(message);
             } catch (Exception e) {
                 callback.accept("Connection lost");
+                notifyServerClosed();       // call method when server is closed
                 break;
             }
         }
@@ -61,6 +71,18 @@ public class Client extends Thread {
             out.reset();
         } catch (Exception e) {
             callback.accept("Error sending data: " + e.getMessage());
+        }
+    }
+
+    // private method that notifies client when server is closed
+    private void notifyServerClosed() {
+
+        try {
+            socketClient.close();
+        } catch (Exception ignored) {}
+
+        if (gameControllerRef != null) {
+            Platform.runLater(() -> gameControllerRef.returnToStartAfterDisconnect());
         }
     }
 }

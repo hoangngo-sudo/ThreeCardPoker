@@ -20,7 +20,7 @@
 
 ```
 cd server
-mvn clean javafx:run
+mvn clean compile exec:java
 ```
 
 - Enter a port (default 5555) on the intro screen and click Start.
@@ -30,7 +30,7 @@ mvn clean javafx:run
 
 ```
 cd client
-mvn clean javafx:run
+mvn clean compile exec:java
 ```
 
 - On the welcome screen, enter the server IP (127.0.0.1) and port, then Connect.
